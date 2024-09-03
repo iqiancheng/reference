@@ -1,0 +1,13 @@
+
+services:
+  reference:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: reference:latest
+    container_name: reference
+    ports:
+      - "9667:3000"
+    environment:
+      - TZ=Asia/Singapore
+    restart: unless-stopped

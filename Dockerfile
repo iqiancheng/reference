@@ -1,7 +1,9 @@
-# https://lipanski.com/posts/smallest-docker-image-static-website
-# https://github.com/lipanski/docker-static-website
-FROM wcjiang/docker-static-website:latest
+FROM node:14-alpine AS build
 
-# Copy the static website
-# Use the .dockerignore file to control what ends up inside the image!
-COPY ./dist .
+WORKDIR /app
+COPY . .
+RUN npm install && npm run build
+
+FROM wcjiang/docker-static-website:latest
+WORKDIR /home/static
+COPY --from=build /app/dist/ .
